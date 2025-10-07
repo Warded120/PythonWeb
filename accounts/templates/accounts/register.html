@@ -53,23 +53,32 @@
             font-size: 16px;
             cursor: pointer;
             transition: background 0.3s;
+            margin-bottom: 10px;
         }
 
         button:hover {
             background: #218838;
         }
 
-        .login-link {
+        .home-link, .login-link {
             text-align: center;
-            margin-top: 15px;
+            margin-top: 10px;
+        }
+
+        .home-link a, .login-link a {
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .home-link a {
+            color: #2e7d32;
         }
 
         .login-link a {
             color: #007bff;
-            text-decoration: none;
         }
 
-        .login-link a:hover {
+        .home-link a:hover, .login-link a:hover {
             text-decoration: underline;
         }
     </style>
@@ -82,6 +91,11 @@
             {{ form.as_p }}
             <button type="submit">Зареєструватися</button>
         </form>
+
+        <div class="home-link">
+            <a href="{% url 'home' %}">На головну</a>
+        </div>
+
         <div class="login-link">
             <a href="{% url 'login' %}">Вже є акаунт? Увійти</a>
         </div>
