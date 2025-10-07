@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Eatle – Доставка продуктів</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    header, footer { background: #2e7d32; color: white; text-align: center; padding: 20px; position: relative; }
+    main { padding: 20px; }
+    .block { margin: 20px 0; padding: 20px; border: 1px solid #ccc; border-radius: 8px; }
+
+    
+    .auth-links { position: absolute; top: 10px; right: 20px; }
+    .auth-links a { color: white; text-decoration: none; margin-left: 15px; font-weight: bold; }
+    .auth-links a:hover { text-decoration: underline; }
+
+    
+    .btn { display: inline-block; padding: 10px 20px; background:#2e7d32; color:white; text-decoration:none; border-radius:5px; font-weight:bold; }
+
+    
+    #cart-modal {
+      display:none;
+      position:fixed;
+      top:70px;
+      right:20px;
+      background:#fff;
+      border:1px solid #ccc;
+      padding:20px;
+      width:300px;
+      box-shadow:0 4px 10px rgba(0,0,0,0.1);
+      z-index:100;
+    }
+    #cart-modal h3 { margin-top:0; }
+    #cart-items { list-style:none; padding-left:0; max-height:200px; overflow-y:auto; }
+    #cart-items li { margin-bottom:10px; }
+    #cart-items button.remove { background:none; border:none; color:red; cursor:pointer; font-weight:bold; }
+    #cart-modal form input, #cart-modal form button { width:100%; margin-bottom:10px; padding:8px; }
+    #cart-modal form button { background:#2e7d32; color:white; border:none; border-radius:5px; cursor:pointer; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="auth-links">
+      {% if user.is_authenticated %}
+        <span>Привіт, {{ user.username }}!</span>
+        <a href="{% url 'logout' %}">Вихід</a>
+      {% else %}
+        <a href="{% url 'login' %}">Увійти</a>
+        <a href="{% url 'register' %}">Реєстрація</a>
+      {% endif %}
+      <a href="#" id="cart-button">🛒 Кошик (<span id="cart-count">{{ request.session.cart|length|default:"0" }}</span>)</a>
+    </div>
+    <h1>Eatle</h1>
+    <p>Свіжі продукти з доставкою до дверей</p>
+  </header>
+
+  <main>
+    <div class="block">
+      <h2>Про нас</h2>
+      <p>Ми доставляємо якісні продукти як для сімей, так і для бізнесу.</p>
+    </div>
+
+    <div class="block">
+      <h2>Наші послуги</h2>
+      <ul>
+        <li>Доставка додому</li>
+        <li>Оптові поставки для магазинів</li>
+        <li>Доставка на склади</li>
+      </ul>
+    </div>
+
+    <div class="block">
+      <h2>Наші продукти</h2>
+      <p>Перегляньте наш асортимент свіжих продуктів.</p>
+      <a href="{% url 'product_list' %}" class="btn">Перейти до продуктів</a>
+    </div>
+
+    <div class="block">
+      <h2>Контакти</h2>
+      <p>Email: support@Eatle.com</p>
+      <p>Телефон: +380 99 123 45 67</p>
+    </div>
+  </main>
+
+
+  <div id="cart-modal">
+    <h3>Кошик</h3>
+    <ul id="cart-items">
+      {% if request.session.cart %}
+        {% for key, item in request.session.cart.items %}
+          <li>{{ item.name }} — {{ item.quantity }} кг — {{ item.price }} грн
+            <form method="post" action="{% url 'remove_from_cart' key %}" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="remove">❌</button>
+            </form>
+          </li>
+        {% endfor %}
+      {% else %}
+        <li>Кошик порожній</li>
+      {% endif %}
+    </ul>
+
+    {% if request.session.cart %}
+    <form method="post" action="{% url 'checkout' %}">
+      {% csrf_token %}
+      <input type="text" name="address" placeholder="Адреса" required>
+      <input type="text" name="phone" placeholder="Телефон" required>
+      <button type="submit">Підтвердити покупку</button>
+    </form>
+    {% endif %}
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Eatle</p>
+  </footer>
+
+  <script>
+    // Відкриття/закриття кошика
+    const cartButton = document.getElementById('cart-button');
+    const cartModal = document.getElementById('cart-modal');
+    cartButton.addEventListener('click', () => {
+      cartModal.style.display = cartModal.style.display === 'none' ? 'block' : 'none';
+    });
+  </script>
+</body>
+<div id="message" style="
+  display:none;
+  position:fixed;
+  top:20px;
+  right:20px;
+  background:#2e7d32;
+  color:white;
+  padding:15px 20px;
+  border-radius:5px;
+  box-shadow:0 2px 5px rgba(0,0,0,0.3);
+  z-index:200;
+"></div>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Кошик</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 20px; }
+.cart-item { display: flex; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #ccc; padding-bottom: 10px; }
+.cart-item img { width: 80px; height: 80px; object-fit: cover; margin-right: 15px; border-radius: 5px; }
+.cart-item div { margin-right: 15px; }
+button { padding: 5px 10px; border: none; background-color: #28a745; color: white; border-radius: 5px; cursor: pointer; }
+button:hover { background-color: #218838; }
+</style>
+</head>
+<body>
+<h1>Кошик</h1>
+
+{% if cart %}
+    {% for key, item in cart.items %}
+        <div class="cart-item">
+            {% if item.image %}
+                <img src="{{ item.image }}" alt="{{ item.name }}">
+            {% endif %}
+            <div>
+                <strong>{{ item.name }}</strong><br>
+                Ціна: {{ item.price }} грн
+            </div>
+            <div>
+                Кількість: {{ item.quantity }}
+            </div>
+            <div>
+                <a href="{% url 'remove_from_cart' key %}"><button>Видалити</button></a>
+            </div>
+        </div>
+    {% endfor %}
+    <h3>Загальна сума: {{ total }} грн</h3>
+{% else %}
+    <p>Кошик порожній.</p>
+{% endif %}
+
+<a href="{% url 'product_list' %}"><button>Продовжити покупки</button></a>
+</body>
+</html>
