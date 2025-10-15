@@ -24,7 +24,16 @@ def product_detail(request, pk):
         'reviews': reviews,
         'form': form
     })
-
+@login_required
+def add_review(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    if request.method == 'POST':
+        text = request.POST.get('text')
+        rating = request.POST.get('rating')
+        Review.objects.create(product=product, user=request.user, text=text, rating=rating)
+        return redirect('product_detail', pk=product.pk)
+    return render(request, 'products/add_review.html', {'product': product})
+    
 def product_list(request):
     products = Product.objects.all()
     return render(request, 'products/list.html', {'products': products})
