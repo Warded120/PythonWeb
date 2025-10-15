@@ -1,15 +1,27 @@
-<h3>Залишити відгук</h3>
-<form method="post">
-    {% csrf_token %}
-    <textarea name="text" rows="4" cols="50" placeholder="Ваш відгук..."></textarea><br>
-    <label>Оцінка: </label>
-    <input type="number" name="rating" min="1" max="5" value="5"><br><br>
-    <button type="submit">Надіслати</button>
-</form>
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ product.name }}</title>
+</head>
+<body>
+    <h1>{{ product.name }}</h1>
+    <p>Ціна: {{ product.price }} грн</p>
 
-<h3>Відгуки</h3>
-{% for review in product.reviews.all %}
-  <p><b>{{ review.user.username }}</b> ({{ review.rating }}/5): {{ review.text }}</p>
-{% empty %}
-  <p>Немає відгуків.</p>
-{% endfor %}
+    <h3>Залишити відгук</h3>
+    <form method="post" action="{% url 'add_review' product.pk %}">
+        {% csrf_token %}
+        <textarea name="text" placeholder="Ваш відгук..." required></textarea><br>
+        <label>Оцінка: </label>
+        <input type="number" name="rating" min="1" max="5" value="5"><br><br>
+        <button type="submit">Надіслати</button>
+    </form>
+
+    <h3>Відгуки</h3>
+    {% for review in reviews %}
+        <p><b>{{ review.user.username }}</b> ({{ review.rating }}/5): {{ review.text }}</p>
+    {% empty %}
+        <p>Немає відгуків.</p>
+    {% endfor %}
+</body>
+</html>
