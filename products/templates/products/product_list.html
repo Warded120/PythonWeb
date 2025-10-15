@@ -14,7 +14,7 @@
     .auth-links a:hover { text-decoration: underline; }
 
     .product-grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
-    .product { background: #fff; padding: 15px; border-radius: 8px; width: 250px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center; }
+    .product { background: #fff; padding: 15px; border-radius: 8px; width: 300px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center; }
     .product img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; }
     .product h3 { margin: 10px 0 5px; }
     .product strong { display: block; margin-top: 10px; color: #2e7d32; }
@@ -34,7 +34,10 @@
     .product a.button:hover, .home-button:hover, .product button:hover { background-color: #1b4d1b; }
 
     .home-button { padding: 10px 20px; }
-    
+
+    .reviews { text-align: left; margin-top: 15px; padding-top: 10px; border-top: 1px solid #ccc; }
+    .review { margin-bottom: 10px; }
+
     #message {
       display:none;
       position:fixed;
@@ -47,6 +50,9 @@
       box-shadow:0 2px 5px rgba(0,0,0,0.3);
       z-index:200;
     }
+
+    textarea { width: 100%; height: 60px; margin-bottom: 5px; }
+    input[type=number] { width: 60px; }
   </style>
 </head>
 <body>
@@ -81,12 +87,34 @@
             {% if user.is_authenticated %}
               <form method="post" action="{% url 'add_to_cart' product.id %}" class="add-to-cart-form">
                 {% csrf_token %}
-                <input type="number" name="quantity" value="1" min="0.1" step="0.1" style="width: 60px;">
+                <input type="number" name="quantity" value="1" min="0.1" step="0.1">
                 <button type="submit">Додати до кошика</button>
               </form>
             {% else %}
               <p>Щоб додати товар у кошик, <a href="{% url 'login' %}">увійдіть</a> або <a href="{% url 'register' %}">зареєструйтесь</a>.</p>
             {% endif %}
+
+            <!-- Відгуки -->
+            <div class="reviews">
+              <h4>Відгуки</h4>
+              {% for review in product.reviews.all %}
+                <div class="review">
+                  <b>{{ review.user.username }}</b> ({{ review.rating }}/5): {{ review.text }}
+                </div>
+              {% empty %}
+                <p>Поки що немає відгуків.</p>
+              {% endfor %}
+
+              {% if user.is_authenticated %}
+                <form method="post" action="{% url 'add_review' product.pk %}">
+                  {% csrf_token %}
+                  <textarea name="text" placeholder="Ваш відгук..." required></textarea><br>
+                  <label>Оцінка:</label>
+                  <input type="number" name="rating" min="1" max="5" value="5"><br>
+                  <button type="submit">Надіслати відгук</button>
+                </form>
+              {% endif %}
+            </div>
           </div>
         {% endfor %}
       </div>
