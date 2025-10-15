@@ -24,3 +24,7 @@ def product_detail(request, pk):
         'reviews': reviews,
         'form': form
     })
+
+def product_list(request):
+    products = Product.objects.all()
+    return render(request, 'products/list.html', {'products': products})
