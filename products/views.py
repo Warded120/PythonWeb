@@ -16,8 +16,8 @@ def add_review(request, pk):
         text = request.POST.get('text')
         rating = request.POST.get('rating')
         Review.objects.create(product=product, user=request.user, text=text, rating=rating)
-        return redirect('product_detail', pk=product.pk)
-    return render(request, 'products/add_review.html', {'product': product})
+        return redirect('product_list')
+
     
 def product_list(request):
     products = Product.objects.all()
