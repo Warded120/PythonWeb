@@ -62,7 +62,6 @@ def add_to_cart(request, product_id):
                 'name': product.name,
                 'price': float(product.price),
                 'quantity': quantity,
-                'image': product.image.url if product.image else ''
             }
 
         request.session['cart'] = cart
@@ -107,4 +106,4 @@ def update_cart(request, product_id, quantity):
 def cart_detail(request):
     cart = request.session.get('cart', {})
     total = sum(item['price'] * item['quantity'] for item in cart.values())
-    return render(request, 'cart.html', {'cart': cart, 'total': total})
+    return render(request, 'products/cart.html', {'cart': cart, 'total': total})

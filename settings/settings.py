@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-c=oq5p$2ly42ca9gi4#p+5z0bo9m1f)+yitn^=gd!-f0u_4=_s'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['food-delivery-store-1.onrender.com', '127.0.0.1', 'localhost']
 
@@ -31,10 +31,6 @@ CSRF_TRUSTED_ORIGINS = [
     'https://food-delivery-store.onrender.com',
     'https://food-delivery-store-1.onrender.com',
 ]
-
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Application definition
 
@@ -83,13 +79,9 @@ WSGI_APPLICATION = 'settings.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-   'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'food_delivery_x2ka',
-        'USER': 'food_delivery_x2ka_user',
-        'PASSWORD': 'CZRvRqEJb4w1PHzgAIgbcR0TmmwKO3jb',
-        'HOST': 'dpg-d3dv3d1r0fns73diqirg-a.oregon-postgres.render.com',
-        'PORT': '5432',
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 AUTH_USER_MODEL = 'accounts.CustomUser'
