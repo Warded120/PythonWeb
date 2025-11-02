@@ -17,7 +17,7 @@ def register_view(request):
             return redirect('home')
     else:
         form = CustomUserCreationForm()
-    return render(request, 'accounts/register.html', {'form': form})
+    return render(request, 'register.html', {'form': form})
 
 def login_view(request):
     if request.method == 'POST':
@@ -30,7 +30,7 @@ def login_view(request):
                 return redirect('home')
             return redirect('home')
         messages.error(request, "Невірний логін або пароль")
-    return render(request, 'accounts/login.html')
+    return render(request, 'login.html')
 
 def logout_view(request):
     logout(request)
@@ -39,15 +39,15 @@ def logout_view(request):
 def user_home(request):
     if not request.user.is_authenticated or request.user.role != 'user':
         return redirect('login')
-    return render(request, 'accounts/user_home.html')
+    return render(request, 'user_home.html')
 
 def admin_home(request):
     if not request.user.is_authenticated or request.user.role != 'admin':
         return redirect('login')
-    return render(request, 'accounts/admin_home.html')
+    return render(request, 'admin_home.html')
 
 def home(request):
-    return render(request, 'accounts/index.html')
+    return render(request, 'index.html')
 def add_to_cart(request, product_id):
     if request.method == 'POST':
         product = get_object_or_404(Product, id=product_id)
@@ -62,7 +62,6 @@ def add_to_cart(request, product_id):
                 'name': product.name,
                 'price': float(product.price),
                 'quantity': quantity,
-                'image': product.image.url if product.image else ''
             }
 
         request.session['cart'] = cart
@@ -92,7 +91,7 @@ def checkout_view(request):
         messages.success(request, "Замовлення оформлено! Ми зв’яжемося з вами")
         return redirect('index')  
 
-    return render(request, 'accounts/checkout.html', {'cart': cart})
+    return render(request, 'checkout.html', {'cart': cart})
 
 def update_cart(request, product_id, quantity):
     cart = request.session.get('cart', {})
@@ -107,4 +106,4 @@ def update_cart(request, product_id, quantity):
 def cart_detail(request):
     cart = request.session.get('cart', {})
     total = sum(item['price'] * item['quantity'] for item in cart.values())
-    return render(request, 'cart.html', {'cart': cart, 'total': total})
+    return render(request, 'products/cart.html', {'cart': cart, 'total': total})

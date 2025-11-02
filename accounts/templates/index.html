@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Eatle – Головна{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="container">
+    <h2>Про нас</h2>
+    <p>Ми доставляємо якісні продукти як для сімей, так і для бізнесу.</p>
+  </div>
+</section>
+
+<section class="services">
+  <div class="container">
+    <h2>Наші послуги</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="icon">🏠</div>
+        <h3>Доставка додому</h3>
+        <p>Швидка доставка свіжих продуктів до ваших дверей</p>
+      </div>
+      <div class="service-card">
+        <div class="icon">🏪</div>
+        <h3>Оптові поставки</h3>
+        <p>Постачання продуктів для магазинів та торгових точок</p>
+      </div>
+      <div class="service-card">
+        <div class="icon">📦</div>
+        <h3>Доставка на склади</h3>
+        <p>Логістичні рішення для вашого бізнесу</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="products-cta">
+  <div class="container">
+    <h2>Наші продукти</h2>
+    <p>Перегляньте наш асортимент свіжих продуктів.</p>
+    <a href="{% url 'product_list' %}" class="btn btn-primary">Перейти до продуктів</a>
+  </div>
+</section>
+
+<section class="contacts">
+  <div class="container">
+    <h2>Контакти</h2>
+    <div class="contact-info">
+      <div class="contact-item">
+        <span class="contact-icon">📧</span>
+        <div>
+          <strong>Email</strong>
+          <p>support@Eatle.com</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <span class="contact-icon">📞</span>
+        <div>
+          <strong>Телефон</strong>
+          <p>+380 99 123 45 67</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

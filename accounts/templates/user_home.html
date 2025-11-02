@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block extra_head %}
+    {% include 'includes/home-styles.html' %}
+{% endblock %}
+{% load static %}
+
+{% block title %}Acme - admin page{% endblock %}
+
+{% block content %}
+    <div class="user-page">
+        <h1>Сторінка користувача</h1>
+        <a href="{% url 'home' %}">На Головну</a>
+        <a href="{% url 'logout' %}">Вийти</a>
+    </div>
+{% endblock %}

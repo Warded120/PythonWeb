@@ -1,0 +1,50 @@
+<script>
+    // Cart functionality
+    document.addEventListener('DOMContentLoaded', function () {
+        const cartButton = document.getElementById('cart-button');
+        const cartModal = document.getElementById('cart-modal');
+        const closeCartBtn = document.getElementById('close-cart');
+
+        // Open/close cart modal
+        if (cartButton) {
+            cartButton.addEventListener('click', function (e) {
+                e.preventDefault();
+                if (cartModal.style.display === 'none' || cartModal.style.display === '') {
+                    cartModal.style.display = 'block';
+                } else {
+                    cartModal.style.display = 'none';
+                }
+            });
+        }
+
+        // Close cart with X button
+        if (closeCartBtn) {
+            closeCartBtn.addEventListener('click', function () {
+                cartModal.style.display = 'none';
+            });
+        }
+
+        // Close cart when clicking outside
+        document.addEventListener('click', function (e) {
+            if (cartModal.style.display === 'block' &&
+                !cartModal.contains(e.target) &&
+                e.target !== cartButton &&
+                !cartButton.contains(e.target)) {
+                cartModal.style.display = 'none';
+            }
+        });
+    });
+
+    // Function to show notification messages
+    function showMessage(text, duration = 3000) {
+        const messageDiv = document.getElementById('message');
+        if (messageDiv) {
+            messageDiv.textContent = text;
+            messageDiv.style.display = 'block';
+
+            setTimeout(function () {
+                messageDiv.style.display = 'none';
+            }, duration);
+        }
+    }
+</script>

@@ -1,0 +1,110 @@
+[
+  {
+    "model": "products.product",
+    "pk": 1,
+    "fields": {
+      "name": "Wireless Headphones",
+      "description": "Bluetooth headphones with noise cancellation.",
+      "price": "99.99"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 2,
+    "fields": {
+      "name": "Smartwatch",
+      "description": "Track fitness, sleep, and notifications.",
+      "price": "149.50"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 3,
+    "fields": {
+      "name": "E-book Reader",
+      "description": "Compact e-reader with adjustable backlight and 8 GB of storage.",
+      "price": "89.00"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 4,
+    "fields": {
+      "name": "Laptop Backpack",
+      "description": "Water-resistant backpack with multiple compartments and USB charging port.",
+      "price": "59.99"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 5,
+    "fields": {
+      "name": "Mechanical Keyboard",
+      "description": "RGB backlit mechanical keyboard with blue switches.",
+      "price": "79.90"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 6,
+    "fields": {
+      "name": "Gaming Mouse",
+      "description": "High-precision optical sensor with customizable DPI settings.",
+      "price": "49.99"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 7,
+    "fields": {
+      "name": "4K Monitor",
+      "description": "27-inch 4K UHD monitor with HDR support and thin bezels.",
+      "price": "329.00"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 8,
+    "fields": {
+      "name": "Portable Bluetooth Speaker",
+      "description": "Compact speaker with powerful sound and 12-hour battery life.",
+      "price": "69.95"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 9,
+    "fields": {
+      "name": "External SSD",
+      "description": "1TB USB-C external solid-state drive with fast data transfer.",
+      "price": "139.00"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 10,
+    "fields": {
+      "name": "Wireless Charger",
+      "description": "Fast wireless charging pad compatible with Qi-enabled devices.",
+      "price": "29.99"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 11,
+    "fields": {
+      "name": "Noise Cancelling Earbuds",
+      "description": "In-ear earbuds with active noise cancellation and touch control.",
+      "price": "119.90"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 12,
+    "fields": {
+      "name": "Smart Home Hub",
+      "description": "Control your lights, thermostat, and devices from one place.",
+      "price": "179.00"
+    }
+  }
+]

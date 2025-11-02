@@ -1,0 +1,32 @@
+[
+  {
+    "model": "accounts.customUser",
+    "pk": 1,
+    "fields": {
+      "username": "admin",
+      "password": "pbkdf2_sha256$1000000$gJBitRWnEVW96GBQoC9ICh$JuZb4u3E7sWljaSmRj+OzwAqyjBy9OG3OvvC7JrlMlg=",
+      "email": "admin@example.com",
+      "first_name": "Site",
+      "last_name": "Admin",
+      "is_staff": true,
+      "is_superuser": true,
+      "is_active": true,
+      "role": "admin"
+    }
+  },
+  {
+    "model": "accounts.customUser",
+    "pk": 2,
+    "fields": {
+      "username": "john_doe",
+      "password": "pbkdf2_sha256$1000000$gJBitRWnEVW96GBQoC9ICh$JuZb4u3E7sWljaSmRj+OzwAqyjBy9OG3OvvC7JrlMlg=",
+      "email": "john@example.com",
+      "first_name": "John",
+      "last_name": "Doe",
+      "is_staff": false,
+      "is_superuser": false,
+      "is_active": true,
+      "role": "user"
+    }
+  }
+]
