@@ -1,43 +1,40 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
 <title>Кошик</title>
-<style>
-body { font-family: Arial, sans-serif; margin: 20px; }
-.cart-item { display: flex; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #ccc; padding-bottom: 10px; }
-.cart-item img { width: 80px; height: 80px; object-fit: cover; margin-right: 15px; border-radius: 5px; }
-.cart-item div { margin-right: 15px; }
-button { padding: 5px 10px; border: none; background-color: #28a745; color: white; border-radius: 5px; cursor: pointer; }
-button:hover { background-color: #218838; }
-</style>
+{% include 'includes/styles.html' %}
 </head>
 <body>
-<h1>Кошик</h1>
+<div class="cart-page-container">
 
-{% if cart %}
-    {% for key, item in cart.items %}
-        <div class="cart-item">
-            {% if item.image %}
-                <img src="{{ item.image }}" alt="{{ item.name }}">
-            {% endif %}
-            <div>
-                <strong>{{ item.name }}</strong><br>
-                Ціна: {{ item.price }} грн
-            </div>
-            <div>
-                Кількість: {{ item.quantity }}
-            </div>
-            <div>
-                <a href="{% url 'remove_from_cart' key %}"><button>Видалити</button></a>
-            </div>
+    <h1 class="cart-title">Кошик</h1>
+
+    {% if cart %}
+        <div class="cart-items">
+            {% for key, item in cart.items %}
+                <div class="cart-card">
+                    {% if item.image %}
+                        <img src="{{ item.image }}" alt="{{ item.name }}" class="cart-image">
+                    {% endif %}
+                    <div class="cart-info">
+                        <strong class="cart-name">{{ item.name }}</strong>
+                        <p class="cart-price">Ціна: {{ item.price }} грн</p>
+                        <p class="cart-quantity">Кількість: {{ item.quantity }}</p>
+                    </div>
+                    <div class="cart-actions">
+                        <a href="{% url 'remove_from_cart' key %}" class="remove-btn">Видалити</a>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-    {% endfor %}
-    <h3>Загальна сума: {{ total }} грн</h3>
-{% else %}
-    <p>Кошик порожній.</p>
-{% endif %}
+        <h3 class="cart-total">Загальна сума: {{ total }} грн</h3>
+    {% else %}
+        <p class="empty-cart-msg">Кошик порожній.</p>
+    {% endif %}
 
-<a href="{% url 'product_list' %}"><button>Продовжити покупки</button></a>
+    <a href="{% url 'product_list' %}" class="btn btn-primary continue-btn">Продовжити покупки</a>
+</div>
 </body>
 </html>
