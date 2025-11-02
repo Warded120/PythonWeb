@@ -41,14 +41,23 @@
 <body>
   <header>
     <div class="auth-links">
-      {% if user.is_authenticated %}
-        <span>Привіт, {{ user.username }}!</span>
-        <a href="{% url 'logout' %}">Вихід</a>
-      {% else %}
-        <a href="{% url 'login' %}">Увійти</a>
-        <a href="{% url 'register' %}">Реєстрація</a>
-      {% endif %}
-      <a href="#" id="cart-button">🛒 Кошик (<span id="cart-count">{{ request.session.cart|length|default:"0" }}</span>)</a>
+        {% if user.is_authenticated %}
+            {% if user.role == "user" %}
+                <a href="{% url 'user_home' %}">
+                    <span>Привіт, {{ user.username }}!</span>
+                </a>
+            {% elif user.role == "admin" %}
+                <a href="{% url 'admin_home' %}">
+                    <span>Привіт, {{ user.username }}!</span>
+                </a>
+            {% endif %}
+
+            <a href="{% url 'logout' %}">Вихід</a>
+        {% else %}
+            <a href="{% url 'login' %}">Увійти</a>
+            <a href="{% url 'register' %}">Реєстрація</a>
+        {% endif %}
+        <a href="#" id="cart-button">🛒 Кошик (<span id="cart-count">{{ request.session.cart|length|default:"0" }}</span>)</a>
     </div>
     <h1>Eatle</h1>
     <p>Свіжі продукти з доставкою до дверей</p>
