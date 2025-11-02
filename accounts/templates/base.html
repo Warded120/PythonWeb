@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Acme – Доставка продуктів{% endblock %}</title>
+    {% include 'includes/styles.html' %}
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+<header>
+    <div class="auth-links">
+        {% if user.is_authenticated %}
+            {% if user.role == "user" %}
+                <a href="{% url 'user_home' %}">
+                    <span>Привіт, {{ user.username }}!</span>
+                </a>
+            {% elif user.role == "admin" %}
+                <a href="{% url 'admin_home' %}">
+                    <span>Привіт, {{ user.username }}!</span>
+                </a>
+            {% endif %}
+            <a href="{% url 'logout' %}">Вихід</a>
+        {% else %}
+            <a href="{% url 'login' %}">Увійти</a>
+            <a href="{% url 'register' %}">Реєстрація</a>
+        {% endif %}
+        <a href="#" id="cart-button" class="cart-link">
+            🛒 Кошик (<span id="cart-count">{{ request.session.cart|length|default:"0" }}</span>)
+        </a>
+    </div>
+    <div class="header-content">
+        <h1>Acme</h1>
+    </div>
+</header>
+
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+
+<!-- Cart Modal -->
+<div id="cart-modal">
+    <div class="cart-header">
+        <h3>Кошик</h3>
+        <button id="close-cart" class="close-btn">&times;</button>
+    </div>
+    <ul id="cart-items">
+        {% if request.session.cart %}
+            {% for key, item in request.session.cart.items %}
+                <li class="cart-item">
+                    <div class="item-info">
+                        <strong>{{ item.name }}</strong>
+                        <span class="item-details">{{ item.quantity }} кг — {{ item.price }} грн</span>
+                    </div>
+                    <form method="post" action="{% url 'remove_from_cart' key %}" class="remove-form">
+                        {% csrf_token %}
+                        <button type="submit" class="remove-btn">❌</button>
+                    </form>
+                </li>
+            {% endfor %}
+        {% else %}
+            <li class="empty-cart">Кошик порожній</li>
+        {% endif %}
+    </ul>
+
+    {% if request.session.cart %}
+        <form method="post" action="{% url 'checkout' %}" class="checkout-form">
+            {% csrf_token %}
+            <input type="text" name="address" placeholder="Адреса доставки" required>
+            <input type="text" name="phone" placeholder="Номер телефону" required>
+            <button type="submit" class="checkout-btn">Підтвердити покупку</button>
+        </form>
+    {% endif %}
+</div>
+
+<!-- Message notification -->
+<div id="message"></div>
+
+<footer>
+    <p>&copy; 2025 Acme. Всі права захищені.</p>
+</footer>
+
+{% include 'includes/scripts.html' %}
+</body>
+</html>
