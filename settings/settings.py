@@ -27,10 +27,10 @@ SECRET_KEY = 'django-insecure-c=oq5p$2ly42ca9gi4#p+5z0bo9m1f)+yitn^=gd!-f0u_4=_s
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['https://pythonweb-lzkz.onrender.com/', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://pythonweb-lzkz.onrender.com/',
+    'https://pythonweb-lzkz.onrender.com',
 ]
 
 # Application definition
@@ -54,7 +54,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'settings.urls'
