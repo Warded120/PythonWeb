@@ -27,12 +27,10 @@ SECRET_KEY = 'django-insecure-c=oq5p$2ly42ca9gi4#p+5z0bo9m1f)+yitn^=gd!-f0u_4=_s
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-#TODO: update url
 ALLOWED_HOSTS = ['https://pythonweb-lzkz.onrender.com/', '127.0.0.1', 'localhost']
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://food-delivery-store.onrender.com',
-    'https://food-delivery-store-1.onrender.com',
+    'https://pythonweb-lzkz.onrender.com/',
 ]
 
 # Application definition
