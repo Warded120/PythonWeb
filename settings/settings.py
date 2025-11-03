@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-c=oq5p$2ly42ca9gi4#p+5z0bo9m1f)+yitn^=gd!-f0u_4=_s
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['food-delivery-store-1.onrender.com', '127.0.0.1', 'localhost']
+#TODO: update url
+ALLOWED_HOSTS = ['my-host.onrender.com', '127.0.0.1', 'localhost']
 
 CSRF_TRUSTED_ORIGINS = [
     'https://food-delivery-store.onrender.com',
@@ -53,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'settings.urls'
@@ -108,6 +110,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = 'static/'
 
 # Default primary key field type
