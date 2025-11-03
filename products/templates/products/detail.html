@@ -2,12 +2,32 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-<meta charset="UTF-8">
-<title>Відгуки</title>
-{% include 'includes/styles.html' %}
+    <meta charset="UTF-8">
+    <title>Відгуки</title>
+    {% include 'products/includes/styles.html' %}
+    {% include 'products/includes/detail-style.html' %}
 </head>
 <body>
 <div class="reviews-container">
+
+    <div class="product-card">
+        <h3>{{ product.name }}</h3>
+        <p>{{ product.description }}</p>
+        <strong>{{ product.price }} грн/кг</strong>
+
+        {% if user.is_authenticated %}
+            <form method="post" action="{% url 'add_to_cart' product.id %}" class="add-to-cart-form">
+                {% csrf_token %}
+                <input type="number" name="quantity" value="1" min="0.1" step="0.1" class="quantity-input">
+                <button type="submit" class="btn btn-primary">Додати до кошика</button>
+            </form>
+        {% else %}
+            <p class="login-prompt">Щоб додати товар у кошик,
+                <a href="{% url 'login' %}">увійдіть</a> або
+                <a href="{% url 'register' %}">зареєструйтесь</a>.
+            </p>
+        {% endif %}
+    </div>
 
     <div class="review-form-section">
         <h3 class="section-title">Залишити відгук</h3>

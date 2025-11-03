@@ -2,9 +2,9 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-<meta charset="UTF-8">
-<title>Eatle – Наші продукти</title>
-{% include 'products/includes/product-list-styles.html' %}
+    <meta charset="UTF-8">
+    <title>Eatle – Наші продукти</title>
+    {% include 'products/includes/product-list-styles.html' %}
 </head>
 <body>
 <header class="site-header">
@@ -35,6 +35,10 @@
                     <p>{{ product.description }}</p>
                     <strong>{{ product.price }} грн/кг</strong>
 
+                    <p class="login-prompt">
+                        <a href="{% url 'product_detail' product.id %}" class="btn">Детальніше</a>
+                    </p>
+
                     {% if user.is_authenticated %}
                         <form method="post" action="{% url 'add_to_cart' product.id %}" class="add-to-cart-form">
                             {% csrf_token %}
@@ -64,32 +68,34 @@
 <div id="message" class="toast-message"></div>
 
 <script>
-function showMessage(text) {
-    const msg = document.getElementById('message');
-    msg.innerText = text;
-    msg.style.display = 'block';
-    setTimeout(() => { msg.style.display = 'none'; }, 3000);
-}
+    function showMessage(text) {
+        const msg = document.getElementById('message');
+        msg.innerText = text;
+        msg.style.display = 'block';
+        setTimeout(() => {
+            msg.style.display = 'none';
+        }, 3000);
+    }
 
-document.querySelectorAll('.add-to-cart-form').forEach(form => {
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const url = form.action;
-        const formData = new FormData(form);
+    document.querySelectorAll('.add-to-cart-form').forEach(form => {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const url = form.action;
+            const formData = new FormData(form);
 
-        fetch(url, {
-            method: 'POST',
-            headers: {'X-CSRFToken': formData.get('csrfmiddlewaretoken')},
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            showMessage(data.message);
-            const cartCountElem = document.getElementById('cart-count');
-            if(cartCountElem) cartCountElem.innerText = data.cart_count;
+            fetch(url, {
+                method: 'POST',
+                headers: {'X-CSRFToken': formData.get('csrfmiddlewaretoken')},
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    showMessage(data.message);
+                    const cartCountElem = document.getElementById('cart-count');
+                    if (cartCountElem) cartCountElem.innerText = data.cart_count;
+                });
         });
     });
-});
 </script>
 </body>
 </html>
