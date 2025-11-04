@@ -15,9 +15,6 @@
         <div class="cart-items">
             {% for key, item in cart.items %}
                 <div class="cart-card">
-                    {% if item.image %}
-                        <img src="{{ item.image }}" alt="{{ item.name }}" class="cart-image">
-                    {% endif %}
                     <div class="cart-info">
                         <strong class="cart-name">{{ item.name }}</strong>
                         <p class="cart-price">Ціна: {{ item.price }} грн</p>
