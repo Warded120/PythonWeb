@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = [
     'https://pythonweb-lzkz.onrender.com',
+    'https://pythonweb-1.onrender.com'
 ]
 
 # Application definition
