@@ -2,9 +2,9 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-    <meta charset="UTF-8">
-    <title>Eatle – Наші продукти</title>
-    {% include 'products/includes/product-list-styles.html' %}
+<meta charset="UTF-8">
+<title>Acme – Наші продукти</title>
+{% include 'products/includes/product-list-styles.html' %}
 </head>
 <body>
 <header class="site-header">
@@ -18,7 +18,7 @@
         {% endif %}
     </div>
     <div class="header-content">
-        <h1>Eatle</h1>
+        <h1>Acme</h1>
         <p class="tagline">Свіжі продукти з доставкою до дверей</p>
     </div>
 </header>
@@ -62,40 +62,38 @@
 </main>
 
 <footer class="site-footer">
-    <p>&copy; 2025 Eatle</p>
+    <p>&copy; 2025 Acme</p>
 </footer>
 
 <div id="message" class="toast-message"></div>
 
 <script>
-    function showMessage(text) {
-        const msg = document.getElementById('message');
-        msg.innerText = text;
-        msg.style.display = 'block';
-        setTimeout(() => {
-            msg.style.display = 'none';
-        }, 3000);
-    }
+function showMessage(text) {
+    const msg = document.getElementById('message');
+    msg.innerText = text;
+    msg.style.display = 'block';
+    setTimeout(() => { msg.style.display = 'none'; }, 3000);
+}
 
-    document.querySelectorAll('.add-to-cart-form').forEach(form => {
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
-            const url = form.action;
-            const formData = new FormData(form);
+document.querySelectorAll('.add-to-cart-form').forEach(form => {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const url = form.action;
+        const formData = new FormData(form);
 
-            fetch(url, {
-                method: 'POST',
-                headers: {'X-CSRFToken': formData.get('csrfmiddlewaretoken')},
-                body: formData
-            })
-                .then(response => response.json())
-                .then(data => {
-                    showMessage(data.message);
-                    const cartCountElem = document.getElementById('cart-count');
-                    if (cartCountElem) cartCountElem.innerText = data.cart_count;
-                });
+        fetch(url, {
+            method: 'POST',
+            headers: {'X-CSRFToken': formData.get('csrfmiddlewaretoken')},
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            showMessage(data.message);
+            const cartCountElem = document.getElementById('cart-count');
+            if(cartCountElem) cartCountElem.innerText = data.cart_count;
         });
     });
+});
 </script>
 </body>
 </html>
