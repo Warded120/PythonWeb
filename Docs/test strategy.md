@@ -4,6 +4,7 @@
 
 ### 1. Objective
 The goal of this testing strategy is to ensure that all features of the application work well.<br>
+Success is measured by 0 critical defects in production and ≥ 80% test coverage before release.
 Tested features include:
 - product catalog
 - cart
@@ -16,10 +17,10 @@ Tested features include:
 
 **In Scope:**
 - Functional and non-functional testing of all Django backend modules.  
-- UI and UX validation for HTML/CSS frontend.  
+- basic UI validation for HTML/CSS frontend.  
 - Integration between components: accounts, products, payments (future integration).  
-- Data integrity and business logic verification in SQLite database.  
-- Unit, Integration, performance, and security testing for production readiness.
+- Data integrity and business logic verification in SQLite database.
+- Unit, Integration, performance, regression and security testing for production readiness.
 
 **Out of Scope:**
 - Third-party payment system testing (future implementation) 
@@ -29,12 +30,13 @@ Tested features include:
 
 ### 3. Testing Levels
 
-| Level                   | Description                                                                                | Example                                                                   |
-|-------------------------|--------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
-| **Unit Testing**        | Test individual Django models, views, and utility functions (80%+ coverage)                | Verify `Order.calculate_total()` returns correct total.                   |
-| **Integration Testing** | Validate interaction between modules (e.g., accounts–products–payments integration).       | Confirm only an authenticated user can place an order.                    |
-| **Performance Testing** | End-to-end testing of complete workflows with multiple users (small-to-medium user count). | Verify that an application works well under moderate load                 |
-| **Security Testing**    | Ensure the application is protected against vulnerabilities like unauthorized access, CSRF, SQL injection, and weak authentication flows. | Attempt to access admin pages without login or submit form without CSRF token and verify access is denied. |
+| Level                   | Description                                                                                                                               | Example                                                                                                     |
+|-------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|
+| **Unit Testing**        | Test individual Django models, views, and utility functions (80%+ coverage)                                                               | Verify `Order.calculate_total()` returns correct total.                                                     |
+| **Integration Testing** | Validate interaction between modules.                                                                                                     | Ensure an authenticated user can place an order and it’s correctly saved in the database with linked items. |
+| **Performance Testing** | Assess the stability and responsiveness of workflows under moderate concurrent usage (10–50 simulated users)                              | Verify that an application works well under moderate load                                                   |
+| **Reggression Testing** | ure that recent code changes, such as bug fixes, new features, or enhancements, have not negatively impacted existing functionalities     | Make sure existing features will work after implementation of payments mechanism                            |
+| **Security Testing**    | Ensure the application is protected against vulnerabilities like unauthorized access, CSRF, SQL injection, and weak authentication flows. | Attempt to access admin pages without login or submit form without CSRF token and verify access is denied.  |
 
 ---
 
@@ -55,6 +57,11 @@ Tested features include:
    - Measure response times for key workflows such as browsing products and checkout.  
    - Identify performance bottlenecks in the Django backend or database queries.  
 
+4. **Regression Testing**
+   - Run existing automated test suites after introducing new features or fixes.
+   - Detect unintended side effects caused by code updates.
+   - Focus on ensuring backward compatibility and preventing previously fixed bugs from reappearing.
+
 4. **Security Testing**
    - Check protection against unauthorized access, CSRF attacks, and SQL injection.  
    - Validate proper session handling, password hashing, and permission management.  
@@ -64,18 +71,19 @@ Tested features include:
 
 ### 5. Test Environment
 
-| Component | Details                                            |
-|------------|----------------------------------------------------|
-| **Backend** | Python 3.x, Django (latest LTS version)            |
-| **Database** | SQLite (development/testing)                       |
-| **Frontend** | HTML, CSS                                          |
-| **OS** | Windows / Linux                                    |
-| **Browser** | Chrome, Firefox, Safari                            |
-| **Tools** | Pytest, Django TestCase, Selenium, Postman, Locust |
+| Component    | Details                                               |
+|--------------|-------------------------------------------------------|
+| **Backend**  | Python 3.x, Django 5.x (LTS or latest stable release) |
+| **Database** | SQLite (development/testing)                          |
+| **Frontend** | HTML, CSS                                             |
+| **OS**       | Windows / Linux                                       |
+| **Browser**  | Chrome, Firefox, Safari                               |
+| **Tools**    | Pytest, Django TestCase, Selenium, Postman, Locust    |
 
 ---
 
 ### 6. Test Data Management
+- All tests executed in isolated virtual environments (python venv)
 - Seed initial data with Django fixtures (e.g., N users, M products).  
 - Anonymize user data during testing.  
 - Reset the database after each test run to maintain consistency.  
@@ -84,14 +92,14 @@ Tested features include:
 
 ### 7. Test Case Examples
 
-| ID | Module | Test Description | Expected Result                         | Type |
-|----|---------|------------------|-----------------------------------------|------|
-| TC001 | Authentication | Register new user | User created, redirected to dashboard   | Functional |
-| TC003 | Cart | Add product to cart | Product appears with correct quantity   | Functional |
-| TC004 | Order | Place order | Order created and status = “Order sent” | Integration |
-| TC005 | Payment | Checkout with online payment | Payment success, order status = “Paid”  | System |
-| TC006 | UI | Validate layout consistency | All elements aligned and readable       | UI |
-| TC007 | Security | Access admin page as user | Access denied                           | Security |
+| ID    | Module         | Test Description             | Expected Result                        | Type        |
+|-------|----------------|------------------------------|----------------------------------------|-------------|
+| TC001 | Authentication | Register new user            | User created, redirected to dashboard  | Functional  |
+| TC002 | Cart           | Add product to cart          | Product appears with correct quantity  | Functional  |
+| TC003 | Order          | Place order                  | Order created and status = “Paid”      | Integration |
+| TC004 | Payment        | Checkout with online payment | Payment success, order status = “Paid” | System      |
+| TC005 | UI             | Validate layout consistency  | All elements aligned and readable      | UI          |
+| TC006 | Security       | Access admin page as user    | Access denied                          | Security    |
 
 ---
 
@@ -106,11 +114,11 @@ Tested features include:
 
 ### 9. Defect Management
 
-| Step | Tool               | Action                                                       |
-|------|--------------------|--------------------------------------------------------------|
-| Defect Logging | Jira               | Record defect with steps and environment create a bug report |
-| Review & Triage | QA + Dev           | Assign priority (Critical, Major, Minor)                     |
-| Fix Verification | QA                 | Retest and close after confirmation                          |
+| Step             | Tool     | Action                                                       |
+|------------------|----------|--------------------------------------------------------------|
+| Defect Logging   | Jira     | Record defect with steps and environment create a bug report |
+| Review & Triage  | QA + Dev | Assign priority (Critical, Major, Minor)                     |
+| Fix Verification | QA       | Retest and close after confirmation                          |
 
 ---
 
@@ -119,33 +127,33 @@ Testing is considered complete when:
 - All critical and major defects are fixed.  
 - Functional coverage ≥ 80%.  
 - Regression suite passes 100%.
-- Test Report are sent to stakeholders and is approved by them
+- Test Reports are sent to stakeholders and is approved by them
 ---
 
 ### 11. Reporting
-- **Daily Test Progress Report** – executed tests, open defects, blockers.  
-- **Final Test Summary Report** – test coverage, defect statistics, pass/fail rate.  
+- **Daily/weekly/monthly Test Reports** – executed tests, open defects, blockers. Automated CI generates regular coverage and test result summaries.  
+- **Final Test Summary Report** – test coverage, defect statistics, pass/fail rate.
 
 ---
 
 ### 12. Risks and Mitigation
 
-| Risk | Impact | Mitigation |
-|------|---------|-------------|
-| Limited test data variety | Medium | Use dynamic data generation scripts |
-| SQLite concurrency limitations | Low | Use PostgreSQL in staging |
-| Manual UI testing delays | Medium | Automate key flows with Selenium |
-
+| Risk                           | Impact | Mitigation                                    |
+|--------------------------------|--------|-----------------------------------------------|
+| Limited test data variety      | Medium | Use dynamic data generation scripts           |
+| SQLite concurrency limitations | Low    | Use PostgreSQL in staging                     |
+| Manual UI testing delays       | Medium | Automate key flows with Selenium              |
+| Unstable test environment      | High   | Use Docker containers to isolate dependencies |
 ---
 
 ### 13. Roles & Responsibilities
 
-| Role | Responsibility                                                               |
-|------|------------------------------------------------------------------------------|
-| **QA Engineer** | Write and execute test cases, manage test data                               |
-| **Developer** | Write unit tests, fix defects, resolve bugreports                            |
-| **Project Manager** | Monitor quality metrics, approve test reports, communicate with stakeholders |
-
+| Role                            | Responsibility                                                               |
+|---------------------------------|------------------------------------------------------------------------------|
+| **QA Engineer**                 | Write and execute test cases, manage test data                               |
+| **Developer**                   | Write unit tests, fix defects, resolve bugreports                            |
+| **Project Manager**             | Monitor quality metrics, approve test reports, communicate with stakeholders |
+| **Stakeholder / Product Owner** | Review reports and approve release readiness                                 |
 ---
 
 ### 14. Deliverables
