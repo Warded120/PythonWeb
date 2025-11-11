@@ -1,9 +1,14 @@
 # TODO: validate
-# Acme – Online Food Delivery Platfor
-## Testing Strategy Document
+# Acme – Online Food Delivery Platform
+## Testing Strategy
 
 ### 1. Objective
-The goal of this testing strategy is to ensure that all features of the Acme application — including product catalog, cart, checkout, delivery, and payments — function as intended, meet business requirements, and provide a smooth, reliable user experience.
+The goal of this testing strategy is to ensure that all features of the application work well.<br>
+Tested features include:
+- product catalog
+- cart
+- checkout
+- delivery
 
 ---
 
@@ -12,75 +17,66 @@ The goal of this testing strategy is to ensure that all features of the Acme app
 **In Scope:**
 - Functional and non-functional testing of all Django backend modules.  
 - UI and UX validation for HTML/CSS frontend.  
-- Integration between components (User, Product, Cart, Order, Delivery, Payment).  
+- Integration between components: accounts, products, payments (future integration).  
 - Data integrity and business logic verification in SQLite database.  
-- Regression, performance, and security testing for production readiness.
+- Unit, Integration, performance, and security testing for production readiness.
 
 **Out of Scope:**
-- Third-party system testing (e.g., external payment gateways).  
+- Third-party payment system testing (future implementation) 
 - Load testing beyond small-to-medium user base (due to SQLite limitations).  
-- Mobile app interface (not included in current scope).
 
 ---
 
 ### 3. Testing Levels
 
-| Level | Description | Example |
-|-------|--------------|----------|
-| **Unit Testing** | Test individual Django models, views, and utility functions. | Verify `Order.calculate_total()` returns correct total. |
-| **Integration Testing** | Validate interaction between modules (e.g., user–order–payment). | Confirm an order status updates after payment success. |
-| **System Testing** | End-to-end testing of complete workflows. | From browsing a product → adding to cart → checkout → order confirmation. |
-| **User Acceptance Testing (UAT)** | Conducted with sample users to validate usability and business goals. | Ensure individuals and businesses can complete purchases smoothly. |
+| Level                   | Description                                                                                | Example                                                                   |
+|-------------------------|--------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
+| **Unit Testing**        | Test individual Django models, views, and utility functions (80%+ coverage)                | Verify `Order.calculate_total()` returns correct total.                   |
+| **Integration Testing** | Validate interaction between modules (e.g., accounts–products–payments integration).       | Confirm only an authenticated user can place an order.                    |
+| **Performance Testing** | End-to-end testing of complete workflows with multiple users (small-to-medium user count). | Verify that an application works well under moderate load                 |
+| **Security Testing**    | Ensure the application is protected against vulnerabilities like unauthorized access, CSRF, SQL injection, and weak authentication flows. | Attempt to access admin pages without login or submit form without CSRF token and verify access is denied. |
 
 ---
 
 ### 4. Testing Types
 
-1. **Functional Testing**
-   - Verify CRUD operations (Users, Products, Orders).  
-   - Validate business rules (e.g., stock quantity reduction after purchase).  
-   - Ensure role-based access for Admin vs. User.  
+1. **Unit Testing**
+   - Test Django models, views, and utility functions individually.  
+   - Validate core logic such as order total calculation and product stock updates.  
+   - Target test coverage: at least 80%.  
 
-2. **UI/UX Testing**
-   - Validate layout consistency across pages.  
-   - Ensure responsiveness and intuitive navigation.  
+2. **Integration Testing**
+   - Verify interactions between modules (e.g., accounts, products and the integration of these modules).  
+   - Confirm only authenticated users can perform restricted actions (e.g., place an order).  
+   - Ensure data flows correctly between components and database.  
 
-3. **Regression Testing**
-   - Execute automated test suites after each new feature or bug fix.  
+3. **Performance Testing**
+   - Evaluate how the application performs under a moderate number of concurrent users.  
+   - Measure response times for key workflows such as browsing products and checkout.  
+   - Identify performance bottlenecks in the Django backend or database queries.  
 
-4. **Performance Testing**
-   - Use Django’s `Locust` or `k6` to simulate concurrent users (10–50).  
-   - Measure response times for cart and checkout endpoints.  
-
-5. **Security Testing**
-   - Validate CSRF protection, authentication, and session management.  
-   - Attempt unauthorized data access to confirm permission restrictions.  
-
-6. **Database Testing**
-   - Check schema consistency and foreign key relations.  
-   - Verify correct updates to order and stock tables.  
-
-7. **Compatibility Testing**
-   - Test on major browsers: Chrome, Firefox, Edge.  
-   - Verify UI consistency across devices (desktop/tablet/mobile).  
+4. **Security Testing**
+   - Check protection against unauthorized access, CSRF attacks, and SQL injection.  
+   - Validate proper session handling, password hashing, and permission management.  
+   - Attempt to access restricted areas (e.g., admin pages) or submit forms without CSRF tokens or required roles to ensure access is denied.
 
 ---
 
 ### 5. Test Environment
 
-| Component | Details |
-|------------|----------|
-| **Backend** | Python 3.x, Django (latest stable version) |
-| **Database** | SQLite (development/testing) |
-| **Frontend** | HTML5, CSS3 |
-| **OS** | Windows / Linux |
-| **Browser** | Chrome, Firefox, Edge |
+| Component | Details                                            |
+|------------|----------------------------------------------------|
+| **Backend** | Python 3.x, Django (latest LTS version)            |
+| **Database** | SQLite (development/testing)                       |
+| **Frontend** | HTML, CSS                                          |
+| **OS** | Windows / Linux                                    |
+| **Browser** | Chrome, Firefox, Safari                            |
 | **Tools** | Pytest, Django TestCase, Selenium, Postman, Locust |
 
 ---
 
 ### 6. Test Data Management
-- Seed initial data with Django fixtures (e.g., 10 users, 15 products).  
+- Seed initial data with Django fixtures (e.g., N users, M products).  
 - Anonymize user data during testing.  
 - Reset the database after each test run to maintain consistency.  
 
@@ -88,15 +84,14 @@ The goal of this testing strategy is to ensure that all features of the Acme app
 
 ### 7. Test Case Examples
 
-| ID | Module | Test Description | Expected Result | Type |
-|----|---------|------------------|----------------|------|
-| TC001 | Authentication | Register new user | User created, redirected to dashboard | Functional |
-| TC002 | Product | Search by category | Products filtered correctly | Functional |
-| TC003 | Cart | Add product to cart | Product appears with correct quantity | Functional |
-| TC004 | Order | Place order | Order created and status = “Pending” | Integration |
-| TC005 | Payment | Checkout with online payment | Payment success, order status = “Paid” | System |
-| TC006 | UI | Validate layout consistency | All elements aligned and readable | UI |
-| TC007 | Security | Access admin page as user | Access denied | Security |
+| ID | Module | Test Description | Expected Result                         | Type |
+|----|---------|------------------|-----------------------------------------|------|
+| TC001 | Authentication | Register new user | User created, redirected to dashboard   | Functional |
+| TC003 | Cart | Add product to cart | Product appears with correct quantity   | Functional |
+| TC004 | Order | Place order | Order created and status = “Order sent” | Integration |
+| TC005 | Payment | Checkout with online payment | Payment success, order status = “Paid”  | System |
+| TC006 | UI | Validate layout consistency | All elements aligned and readable       | UI |
+| TC007 | Security | Access admin page as user | Access denied                           | Security |
 
 ---
 
@@ -104,28 +99,27 @@ The goal of this testing strategy is to ensure that all features of the Acme app
 
 - **Framework:** `pytest-django` for backend unit/integration tests.  
 - **UI Testing:** Selenium for browser-based functional tests.  
-- **Continuous Integration:** GitHub Actions or Jenkins pipeline.  
+- **Continuous Integration:** GitHub Actions.  
 - **Trigger:** Automated tests run on every pull request and deployment.  
 
 ---
 
 ### 9. Defect Management
 
-| Step | Tool | Action |
-|------|------|---------|
-| Defect Logging | GitHub Issues / Jira | Record defect with steps and environment |
-| Review & Triage | QA + Dev | Assign priority (Critical, Major, Minor) |
-| Fix Verification | QA | Retest and close after confirmation |
+| Step | Tool               | Action                                                       |
+|------|--------------------|--------------------------------------------------------------|
+| Defect Logging | Jira               | Record defect with steps and environment create a bug report |
+| Review & Triage | QA + Dev           | Assign priority (Critical, Major, Minor)                     |
+| Fix Verification | QA                 | Retest and close after confirmation                          |
 
 ---
 
 ### 10. Exit Criteria
 Testing is considered complete when:
 - All critical and major defects are fixed.  
-- Functional coverage ≥ 95%.  
-- Regression suite passes 100%.  
-- UAT sign-off received from stakeholders.  
-
+- Functional coverage ≥ 80%.  
+- Regression suite passes 100%.
+- Test Report are sent to stakeholders and is approved by them
 ---
 
 ### 11. Reporting
@@ -146,12 +140,11 @@ Testing is considered complete when:
 
 ### 13. Roles & Responsibilities
 
-| Role | Responsibility |
-|------|----------------|
-| **QA Engineer** | Write and execute test cases, manage test data |
-| **Developer** | Write unit tests, fix defects |
-| **Project Manager** | Monitor quality metrics, approve test reports |
-| **UAT Participants** | Validate business workflows |
+| Role | Responsibility                                                               |
+|------|------------------------------------------------------------------------------|
+| **QA Engineer** | Write and execute test cases, manage test data                               |
+| **Developer** | Write unit tests, fix defects, resolve bugreports                            |
+| **Project Manager** | Monitor quality metrics, approve test reports, communicate with stakeholders |
 
 ---
 
