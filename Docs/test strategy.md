@@ -145,7 +145,22 @@ Testing is considered complete when:
 | Unstable test environment      | High   | Use Docker containers to isolate dependencies |
 ---
 
-### 13. Roles & Responsibilities
+### 13. Failure Points
+
+This section identifies potential failure points of the Acme platform and defines the conditions under which they may occur, along with detection and mitigation strategies.
+
+| Area / Component        | Potential Failure Point                               | Failure Condition or Cause                                    | Detection Method                             | Mitigation / Recovery Strategy                                                    |
+|-------------------------|-------------------------------------------------------|---------------------------------------------------------------|----------------------------------------------|-----------------------------------------------------------------------------------|
+| **Database (SQLite)**   | Connection loss or locked DB file, DB overload        | Concurrent writes, long-running transactions, file corruption | Django logs, DB connection errors            | Retry logic, transaction rollback, switch to backup DB, migrate to more stable DB |
+| **Authentication**      | Brute force attack                                    | Attempting to get access via brute force                      | 401/403 responses, error logs                | Token refresh, secure session handling, limit log in attempts                     |
+| **Order Processing**    | Order not saved or inconsistent order state           | Transaction interruption, race conditions, code exception     | Integration test failures, log alerts        | Use atomic transactions, ensure proper rollback                                   |
+| **Payment Integration** | Payment request failure or timeout                    | Network issues, invalid payment response, 3rd-party downtime  | HTTP timeout logs, API response monitoring   | Implement retry & fallback, log failed transactions                               |
+| **Network/API Layer**   | Timeout or unreachable backend service                | Network instability, misconfigured endpoints                  | Monitoring tools, Postman test failures      | Retry mechanism, API health checks                                                |
+| **Performance / Load**  | System slowdown or 500 errors under concurrent access | Inefficient queries, lack of caching, limited DB concurrency  | Locust test results, response time metrics   | Optimize queries, use caching, scale DB connections                               |
+| **Security**            | Unauthorized access, CSRF, or SQL injection attempts  | Missing validation, incorrect middleware configuration        | Security test results, penetration test logs | Apply proper validation, CSRF tokens, ORM usage                                   |
+
+
+### 14. Roles & Responsibilities
 
 | Role                            | Responsibility                                                               |
 |---------------------------------|------------------------------------------------------------------------------|
@@ -155,7 +170,7 @@ Testing is considered complete when:
 | **Stakeholder / Product Owner** | Review reports and approve release readiness                                 |
 ---
 
-### 14. Deliverables
+### 15. Deliverables
 - Test Plan Document  
 - Test Case Suite  
 - Test Data Set (fixtures)  
