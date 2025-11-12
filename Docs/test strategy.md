@@ -1,4 +1,3 @@
-# TODO: validate
 # Acme – Online Food Delivery Platform
 ## Testing Strategy
 
